@@ -58,7 +58,7 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
         pass
 
     @abstractmethod
-    def destroy_room(self, name, service, host):
+    def destroy_room(self, name, service):
         pass
 
     @abstractmethod

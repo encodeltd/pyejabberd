@@ -453,15 +453,12 @@ class EjabberdAPITests(TestCase):
 
 
     def test_check_account(self):
-        try:
-            user_created = create_test_user(self.api, 'testuser_17', host=XMPP_DOMAIN)
-        except UserAlreadyRegisteredError:
-            user_created = False
-        check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
-        self.assertTrue(check_account)
-        self.api.unregister('testuser_17', host=XMPP_DOMAIN)
-        check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
-        self.assertFalse(check_account)
+        with create_test_user(self.api, 'testuser_17', host=XMPP_DOMAIN) as username:
+            check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
+            self.assertTrue(check_account)
+            self.api.unregister('testuser_17', host=XMPP_DOMAIN)
+            check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
+            self.assertFalse(check_account)
 
 
 class LibraryTests(TestCase):
@@ -679,7 +676,7 @@ class create_test_room(object):
     def _remove_room(self, name, service, host):  # pragma: no cover
         attempt = 0
         while attempt < 10:
-            result = self.api.destroy_room(name, service=service, host=host)
+            result = self.api.destroy_room(name, service=service)
             if not result:
                 attempt += 1
                 continue

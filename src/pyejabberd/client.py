@@ -272,19 +272,17 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.CreateRoom, name=name, service=service, host=host)
 
-    def destroy_room(self, name, service, host):
+    def destroy_room(self, name, service):
         """
         Destroy a MUC room
         :param name: The name for the room
         :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
         :type service: str|unicode
-        :param host: The XMPP_DOMAIN
-        :type host: str|unicode
         :rtype: bool
         :return: A boolean indicating whether the room has been destroyed successfully
         """
-        return self._call_api(definitions.DestroyRoom, name=name, service=service, host=host)
+        return self._call_api(definitions.DestroyRoom, name=name, service=service)
 
     def get_room_options(self, name, service):
         """

@@ -170,7 +170,7 @@ Usage
     affiliations = client.get_room_affiliations(name='room1', service='conference')
 
     # Destroy a muc room
-    client.destroy_room(name='room1', service='conference', host='example.com')
+    client.destroy_room(name='room1', service='conference')
 
     # Unregister a user
     client.unregister(user='alice', host='example.com')
