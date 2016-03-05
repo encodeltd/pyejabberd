@@ -35,6 +35,9 @@ class EjabberdAPITests(TestCase):
             verbose=VERBOSE)
         self.assertIsNotNone(self.api)
 
+    def test_testserver_unreachable(self):
+        self.assertFalse(ejabberd_testserver_is_up('%s://%s:%s' % (PROTOCOL, HOST, 31337)))
+
     def test_from_string_ok(self):
         service_url = '%s://%s:%s@%s:%s/%s' % (PROTOCOL, USERNAME, PASSWORD, HOST, PORT,
                                                XMPP_DOMAIN)
