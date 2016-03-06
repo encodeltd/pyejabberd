@@ -147,6 +147,13 @@ Usage
     # Get information for all sessions for a user
     client.user_sessions_info(user="jim", host="example.com"):
 
+    # Disconnect user's active sessions
+    num_sessions = client.kick_user(user="alice", host="example.com")
+    print "Number of user's sessions kicked out: {:}".format(num_sessions)
+
+    # Disconnect user's session
+    client.kick_session(user="alice", host="example.com", resource="foo", reason="bar")
+
     # Get muc rooms
     muc_online_rooms = client.muc_online_rooms()
     # result is in the format ['room1@conference', ...] where 'conference' is the muc service name
@@ -294,7 +301,3 @@ For further information about changes in ``Ejabberd 15.09`` also see:
 
 - https://github.com/processone/ejabberd/issues/771
 - https://github.com/processone/ejabberd/issues/845
-
-Some of the issues are addressed in the following pull request:
-
-https://github.com/dirkmoors/pyejabberd/pull/23
