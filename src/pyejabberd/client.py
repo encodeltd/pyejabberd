@@ -245,7 +245,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :rtype: list
         :return: list of information of sessions for a user
         """
-        return self._call_api(definitions.UserSessionInfo, user=user, host=host)
+        return self._call_api(definitions.UserSessionsInfo, user=user, host=host)
 
     def muc_online_rooms(self, host=None):
         """
@@ -406,6 +406,34 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.CheckAccount, user=user, host=host)
 
+    def kick_user(self, user, host):
+        """
+        Disconnect user's active sessions
+
+        :param user: The username of the user we want to disconnect
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :return: The number of resources/session kicked out
+        """
+        return self._call_api(definitions.KickUser, user=user, host=host)
+
+    def kick_session(self, user, host, resource, reason):
+        """
+        Disconnect user's session
+
+        :param user: The username of the user we want to disconnect a session for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :param resource: The resource of the session we want to disconnect
+        :type resource: str|unicode
+        :param reason: The reason why we want to disconnect the session
+        :type reason: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.KickSession, user=user, host=host, resource=resource, reason=reason)
+
     def _validate_and_serialize_arguments(self, api, arguments):
         """
         Internal method to validate and serialize arguments
@@ -435,14 +463,16 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
     def _report_method_call(self, method, arguments):
         """
         Internal method to print info about a method call
-        :param method: The name oft hem ethod to call
+        :param method: The name of the method to call
         :type method: str|unicode
         :param arguments: A dictionary of arguments that will be passed to the method
         :type: arguments: dict
         :return:
         """
         if self.verbose:
-            print('===> %s(%s)' % (method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()])))
+            report = '===> %s(%s)' % (method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()]))
+            print(report)
+            return report
 
     def _call_api(self, api_class, **kwargs):
         """

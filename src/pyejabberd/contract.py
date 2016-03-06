@@ -92,3 +92,11 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
     @abstractmethod
     def check_account(self, user, host):
         pass
+
+    @abstractmethod
+    def kick_user(self, user, host):
+        pass
+
+    @abstractmethod
+    def kick_session(self, user, host, resource, reason):
+        pass

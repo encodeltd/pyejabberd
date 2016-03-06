@@ -107,16 +107,18 @@ class ConnectedUsersNumber(API):
     def transform_response(self, api, arguments, response):
         return response.get('num_sessions')
 
-class UserSessionInfo(API):
+class UserSessionsInfo(API):
     method = 'user_sessions_info'
     arguments = [StringArgument('user'), StringArgument('host')]
 
-    def transform_response(self, api, arguments, response):
-        sessions_info = response.get('sessions_info', [])
+    def process_sessions_info(self, sessions_info):
         return [
             dict((k, v) for property_k_v in session["session"] for k, v in property_k_v.items())
             for session in sessions_info
         ]
+
+    def transform_response(self, api, arguments, response):
+        return self.process_sessions_info(response.get('sessions_info', []))
 
 class MucOnlineRooms(API):
     method = 'muc_online_rooms'
@@ -232,6 +234,22 @@ class GetRoster(API):
 class CheckAccount(API):
     method = 'check_account'
     arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
+
+
+class KickUser(API):
+    method = 'kick_user'
+    arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('num_resources')
+
+
+class KickSession(API):
+    method = 'kick_session'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('resource'), StringArgument('reason')]
 
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
