@@ -2,14 +2,18 @@
 Changelog
 =========
 
-0.3.0 (2016-02-05)
+0.3.0 (2016-02-06)
 ------------------
 
 * Fixed auth for Ejabberd 15.09 and higher - See https://github.com/processone/ejabberd/issues/845
 * Removed testing against Ejabberd 15.06 and 15.07, because 15.09> command API is backwards incompatible
 * Added testing against Ejabberd 15.09, 15.10, 15.11 and latest (16.02)
 * Added API: check_account
+* Added API: kick_user
+* Added API: kick_session
 * Fixed API: get_roster
+* Fixed API: destroy_room
+* Improved test coverage
 
 0.2.10 (2015-09-16)
 -------------------
