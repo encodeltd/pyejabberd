@@ -14,6 +14,9 @@ from pyejabberd.muc.arguments import MUCRoomArgument
 from pyejabberd.muc.enums import AllowVisitorPrivateMessage, Affiliation
 from pyejabberd.utils import format_password_hash_md5, format_password_hash_sha
 from pyejabberd.contrib import ejabberd_testserver_is_up
+from pyejabberd.definitions import Echo
+from pyejabberd.definitions import UserSessionsInfo
+from pyejabberd.core.errors import IllegalArgumentError
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
 PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
@@ -120,6 +123,28 @@ class EjabberdAPITests(TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result, sentence)
 
+    def test_echo_no_auth(self):
+        class EchoNoAuth(Echo):
+            authenticate = False
+        result = self.api._call_api(EchoNoAuth, sentence='foo')
+        self.assertEqual('foo', result)
+
+    def test_missing_argument(self):
+        missing_argument = False
+        try:
+            self.api._validate_and_serialize_arguments(Echo, [])
+        except IllegalArgumentError:
+            missing_argument = True
+        self.assertTrue(missing_argument)
+
+    def test_report_method_call(self):
+        self.api.verbose = False
+        report = self.api._report_method_call('echo', {'sentence': 'foo'})
+        self.assertEqual(report, None)
+        self.api.verbose = True
+        report = self.api._report_method_call('echo', {'sentence': 'foo'})
+        self.assertEqual(report, '===> echo(sentence=foo)')
+
     def test_registered_users(self):
         result = self.api.registered_users(XMPP_DOMAIN)
         self.assertTrue(isinstance(result, (list, tuple)))
@@ -181,6 +206,29 @@ class EjabberdAPITests(TestCase):
     def test_user_sessions_info(self):
         result = self.api.user_sessions_info('admin', XMPP_DOMAIN)
         self.assertTrue(isinstance(result, (list)))
+
+    def test_user_sessions_info_process_session_info(self):
+        response = [{'session': [{'connection': 'fake'},
+                                 {'ip': '127.0.0.1'},
+                                 {'port': 31337},
+                                 {'priority': 0},
+                                 {'node': 'ejabberd@example.com'},
+                                 {'uptime': 1},
+                                 {'status': 'bar'},
+                                 {'resource': 'foo'},
+                                 {'statustext': 'bar'}]}]
+        user_session_info = UserSessionsInfo()
+        actual_result = user_session_info.process_sessions_info(response)
+        expected_result = [{u'resource': u'foo',
+                            u'node': u'ejabberd@example.com',
+                            u'statustext': u'bar',
+                            u'status': u'bar',
+                            u'ip': u'127.0.0.1',
+                            u'connection': u'fake',
+                            u'uptime': 1,
+                            u'port': 31337,
+                            u'priority': 0}]
+        self.assertEqual(expected_result[0]['port'], actual_result[0]['port'])
 
     def test_create_destroy_room(self):
         with create_test_room(self.api, 'testroom_1', service=MUC_SERVICE, host=XMPP_DOMAIN,
@@ -457,11 +505,21 @@ class EjabberdAPITests(TestCase):
 
     def test_check_account(self):
         with create_test_user(self.api, 'testuser_17', host=XMPP_DOMAIN) as username:
-            check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
+            check_account = self.api.check_account(username, XMPP_DOMAIN)
             self.assertTrue(check_account)
-            self.api.unregister('testuser_17', host=XMPP_DOMAIN)
-            check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
+            self.api.unregister(username, host=XMPP_DOMAIN)
+            check_account = self.api.check_account(username, XMPP_DOMAIN)
             self.assertFalse(check_account)
+
+
+    def test_kick_user(self):
+        kick_user = self.api.kick_user('admin', XMPP_DOMAIN)
+        self.assertEqual(kick_user, 0)
+
+
+    def test_kick_session(self):
+        kick_session = self.api.kick_session('admin', XMPP_DOMAIN, 'foo', 'bar')
+        self.assertTrue(kick_session)
 
 
 class LibraryTests(TestCase):
