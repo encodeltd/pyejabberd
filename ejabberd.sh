@@ -10,4 +10,4 @@ docker run -d -p "${EJABBERD_XMLRPC_PORT:=4560}:4560" \
     -e "EJABBERD_MOD_MUC_ADMIN=true" \
     -e "EJABBERD_WEB_ADMIN_SSL=false" \
     -e "EJABBERD_S2S_SSL=true" \
-    markuz/pyejabberd-test-server:${EJABBERD_VERSION:=16.02}
+    markuz/pyejabberd-test-server:${EJABBERD_VERSION:=16.08}
