@@ -13,8 +13,8 @@ machine:
         PYEJABBERD_TESTS_PROTOCOL: http
         PYEJABBERD_TESTS_VERBOSE: 0
         PIP_CACHE_DIR: ~/pip-cache
-    post:
-        - pyenv global pypy-2.4.6 2.6.9 2.7.12 3.3.6 3.4.5
+    #post:
+    #    - pyenv global pypy-2.4.6 2.6.9 2.7.12 3.3.6 3.4.5
 dependencies:
     cache_directories:
         - "~/docker"
