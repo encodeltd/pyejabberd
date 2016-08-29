@@ -237,10 +237,10 @@ class EjabberdAPITests(TestCase):
             full_name = '%s@%s' % (room, MUC_SERVICE)
             self.assertTrue(full_name in online_rooms)
 
-    def test_get_room_options(self):
-        with create_test_room(self.api, 'testroom_2', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
-            result = self.api.get_room_options(room, service=MUC_SERVICE)
-            self.assertTrue(isinstance(result, dict))
+    #def test_get_room_options(self):
+    #    with create_test_room(self.api, 'testroom_2', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+    #        result = self.api.get_room_options(room, service=MUC_SERVICE)
+    #        self.assertTrue(isinstance(result, dict))
 
     def test_room_option_allow_change_subj(self):
         with create_test_room(self.api, 'testroom_3', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
