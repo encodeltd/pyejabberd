@@ -6,8 +6,8 @@ Changelog
 ------------------
 
 * Fixed auth for Ejabberd 15.09 and higher - See https://github.com/processone/ejabberd/issues/845
-* Removed testing against Ejabberd 15.06 and 15.07, because 15.09> command API is backwards incompatible
-* Added testing against Ejabberd 15.09, 15.10, 15.11 and latest (16.02)
+* Removed testing against any version prior to Ejabberd 16.04, because version 15.09 changed command API and 16.04 has the new API stable.
+* Added testing against Ejabberd 16.04, 16.06 and the latest (16.08)
 * Added API: check_account
 * Added API: kick_user
 * Added API: kick_session
