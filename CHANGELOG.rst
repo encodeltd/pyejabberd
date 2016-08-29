@@ -15,6 +15,11 @@ Changelog
 * Fixed API: destroy_room
 * Improved test coverage
 
+0.2.11 (2016-03-09)
+-------------------
+
+* Updated "enum34" version requirement
+
 0.2.10 (2015-09-16)
 -------------------
 
