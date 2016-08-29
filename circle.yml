@@ -27,17 +27,17 @@ dependencies:
         - if [[ -e ~/docker/ejabberd-latest.tar ]]; then docker load --input ~/docker/ejabberd-latest.tar; fi
         - docker pull markuz/pyejabberd-test-server:latest
         - mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:latest > ~/docker/ejabberd-latest.tar
-        - if [[ -e ~/docker/ejabberd-16.04.tar ]]; then docker load --input ~/docker/ejabberd-16.04.tar; fi
-        - docker pull markuz/pyejabberd-test-server:16.04
-        - mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:16.04 > ~/docker/ejabberd-16.04.tar
-        - if [[ -e ~/docker/ejabberd-16.06.tar ]]; then docker load --input ~/docker/ejabberd-16.06.tar; fi
-        - docker pull markuz/pyejabberd-test-server:16.06
-        - mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:16.06 > ~/docker/ejabberd-16.06.tar
+        #- if [[ -e ~/docker/ejabberd-16.04.tar ]]; then docker load --input ~/docker/ejabberd-16.04.tar; fi
+        #- docker pull markuz/pyejabberd-test-server:16.04
+        #- mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:16.04 > ~/docker/ejabberd-16.04.tar
+        #- if [[ -e ~/docker/ejabberd-16.06.tar ]]; then docker load --input ~/docker/ejabberd-16.06.tar; fi
+        #- docker pull markuz/pyejabberd-test-server:16.06
+        #- mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:16.06 > ~/docker/ejabberd-16.06.tar
 test:
     pre:
         - export EJABBERD_VERSION=latest; export EJABBERD_XMLRPC_PORT=4560; ./ejabberd.sh
-        - export EJABBERD_VERSION=16.04; export EJABBERD_XMLRPC_PORT=4562; ./ejabberd.sh
-        - export EJABBERD_VERSION=16.06; export EJABBERD_XMLRPC_PORT=4563; ./ejabberd.sh
+        #- export EJABBERD_VERSION=16.04; export EJABBERD_XMLRPC_PORT=4562; ./ejabberd.sh
+        #- export EJABBERD_VERSION=16.06; export EJABBERD_XMLRPC_PORT=4563; ./ejabberd.sh
     override:
         - sleep 10
         - tox
