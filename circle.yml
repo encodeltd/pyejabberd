@@ -2,7 +2,7 @@ machine:
     services:
         - docker
     python:
-        version: 2.7.6
+        version: 2.7.12
     environment:
         PYEJABBERD_TESTS_HOST: 127.0.0.1
         PYEJABBERD_TESTS_PORT: 4560
@@ -14,7 +14,7 @@ machine:
         PYEJABBERD_TESTS_VERBOSE: 0
         PIP_CACHE_DIR: ~/pip-cache
     post:
-        - pyenv global pypy-2.4.0 2.6.8 2.7.9 3.3.3 3.4.2
+        - pyenv global pypy-2.4.6 2.6.9 2.7.12 3.3.6 3.4.5
 dependencies:
     cache_directories:
         - "~/docker"
